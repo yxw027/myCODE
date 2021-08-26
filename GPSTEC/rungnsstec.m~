@@ -1,0 +1,65 @@
+clear;clc
+
+cd('/home/yen/CODE/gnsstec_tsai')
+ch_day = 201: 366;  
+Year = 2016;
+att = 450;
+% -------------------------------------------------------------------------
+parfor dd = 1: 1: length(ch_day)
+    
+%     mkdir(['/home/yen/Satellite_Data/gps/' num2str(Year) '/' num2str(ch_day(dd),'%03d') '_TEC_' num2str(att)]);   
+    
+    dirpath = ['/home/yen/Satellite_Data/gps/Taiwan/' num2str(Year) '/' num2str(ch_day(dd),'%03d') '/']; % o-file directory           
+           
+    outpath1 = ['/home/yen/Satellite_Data/gps/Taiwan/' num2str(Year) '/' num2str(ch_day(dd),'%03d') '_TEC_' num2str(att) '/']; % output TEC data directory
+    
+    addpath('/home/yen/CODE/gnsstec_tsai/geo/pirvates');
+
+
+    hrng =[0 24]; % hour range
+    rate = 30; % sampling rate
+    minel = 20; %  minimum (cutoff) elevation angle of satellites
+    doy1 = ch_day(dd); %day of year 1
+    doy2 = ch_day(dd); % day of year 2
+    ippalt = 450; % ionospheric altitude
+    Y = num2str(Year,'%04d');
+    mission ={'GPS','GLONASS','Galileo'};
+    m1 = 1;% mission 1
+    m2 = 1;% mission 2
+    for mm = m1: m2
+        MISSION = mission{mm};
+        switch MISSION
+            case 'GPS'
+                fun = @gpstec;
+            case 'GLONASS'
+                fun = @glotec;
+            case 'Galileo'
+                fun = @galtec;
+        end
+        
+        for doy = doy1: doy2
+            D = num2str(doy,'%03d');
+            getgnssdata(Year, doy, MISSION); % download necessary data
+            inpath = dirpath;
+            outpath = [outpath1  lower(MISSION) '/local/' Y '.' D '/'];
+            if ~exist(outpath,'dir')
+                mkdir(outpath);
+            end
+            f = dir([inpath '/*0.' Y(3:4) 'o']);
+            lf = length(f);
+            for i = 1: lf
+                infile = f(i).name;
+                Site = infile(1:4);
+                if exist([outpath infile(1:7) '.mat'],'file')
+                    continue;
+                end
+                try
+                    fun(Site,Year,doy,hrng,rate,minel,ippalt,inpath,outpath);
+                catch
+                    disp([Site ' wrong !!']);
+                    continue;
+                end
+            end
+        end
+    end
+end

@@ -1,0 +1,949 @@
+Version 8.12
+2017-02-24
+	* glotec.m, glotec_sh.m: Fixed two bugs in section of shifting minimum
+	TEC to 5 (briefly taking median of 'ns2tecu'; replacing ~isempty(v4nz)
+	with any(v4nz).
+Version 8.11
+2017-02-16
+	* readbia.m, readbia_c.m: Modified to read in new BSX files.
+2017-01-03
+	* README: Added description about data exchange between Octave and
+	MATLAB.
+2016-12-24
+	* smooth.m: Added input argument for running median and output
+	argument S for deviation values.
+Version 8.10
+2016-12-22
+	* obs2mat.m, obs2mat_m.m, putintv.m: Fixed a bug of calling fgetl().
+	* getalldcb.m, getalldcb_c.m, getrecdcb.m, getrecdcb_c.m,
+	getrecdcb_e.m, getrecdcb_r.m: Fixed a bug of checking package for
+	compatibility with MATLAB.
+	* Hmatrix_m.m: Renamed from Hmatrix_c.m.
+	* getalldcb.m, getalldcb_c.m: Removed data if the number of observables
+	is too few for a satellite to prevent large estimate errors in DCBs.
+	* getalldcb.m, getalldcb_c.m, getrecdcb_c.m: Replaced Hmatrix_c() with
+	Hmatrix_m().
+	* rinex_rename.m: Modified to insert observation interval into the
+	destination file if not found.
+2016-12-19
+	* gps2doy.m: Created for conversion from GPS week to the day of year.
+2016-12-15
+	* galtec.m, galtec_sh.m, glotec.m, glotec_sh.m, gpstec.m, gpstec_sh.m:
+	Modified to create STATION.mat only if it is not available.
+	* ambiguity_c.m: Removed DCB section and added input arguments 'recdcb'
+	and 'bdsdcb'.  Treated observables C2I and L2I in RINEX 3.03 as C1I
+	and L2I, respectively.
+	* bdstec.m, bdstec_sh.m: Changed back to read in satellite DCBs with
+	readbia_c().  Read in and output satellite DCBs.  Shifted minimum
+	vertical TEC to 5 TECU if less than 5.
+	* readbia_c.m: Replaced logical AND '&' and OR '|' with '&&' and '||',
+	respectively, to omit warning in Octave (not compatible with MATLAB).
+	* obs2mat.m, obs2mat_m.m: Fixed a bug of reading epoch/sat for RINEX
+	3.
+	* putintv.m: Created to insert sampling interval into RINEX file.
+2016-12-14
+	* bdstec.m, bdstec_sh.m, galtec.m, galtec_sh.m, glotec.m, glotec_sh.m,
+	gpstec.m, gpstec_sh.m: Set the input argument of Site case-sensitive
+	for site name with capital letters.
+	* rinex_rename.m: Created for converting the RINEX filenames.
+	* crx2rnx.m: Revised to process unzipped and/or multiple files.
+2016-12-10
+	* glotec.m, glotec_sh.m: Read in and output both satellite and receiver
+	DCBs.  Shifted minimum vertical TEC to 5 TECU if less than 5.
+	* galtec.m, galtec_sh.m: Read in and output satellite DCBs.  Shifted
+	minimum vertical TEC to 5 TECU if less than 5.
+	* ambiguity_r.m: Removed DCB section and added input argument 'glodcb'.
+	* ambiguity_e.m: Added input argument 'galdcb' for satellite DCBs
+	instead of calling readbia().
+Version 8.9
+2016-12-09
+	* gpstec.m, gpstec_sh.m: Modified the minimum TEC shifting, i.e.,
+	shifting minimum vertical TEC to 5 TECU if less than 5.
+	* elevation.m, elevation_c.m, elevation_e.m, elevation_r.m, ionpt.m,
+	ionpt_c.m, ionpt_e.m, ionpt_r.m: Removed sparse() from output.
+	* bdstec.m, bdstec_sh.m, galtec.m, galtec_sh.m, glotec.m, glotec_sh.m,
+	gpstec.m, gpstec_sh.m: Added sparse() for arrays lon and lat.
+Version 8.8
+2016-12-02
+	* gpstec.m, gpstec_sh.m: Fixed a typo in isempty().
+2016-12-01
+	* gpstec.m, gpstec_sh.m: Fixed a bug to skip empty array before
+	shifting minimum slant TEC.
+2016-11-30
+	* gpstec.m, gpstec_sh.m: Shifted minimum slant TEC to 5 TECU if
+	zero or negatives.
+Version 8.7
+2016-11-29
+	* getalldcb.m: Created for GPS satellite and receiver DCBs solution.
+	* gpstec.m, gpstec_sh.m: Added solution for both satellite and
+	receiver DCBs and then output GPS DCBs.
+	* ambiguity.m: Removed DCB section and added input argument 'gpsdcb'.
+	* README: Revised accordingly.
+Version 8.6
+2016-11-28
+	* obs2mat.m, obs2mat_m.m: Elimiated outliers in the pseudo-range
+	observables.
+Version 8.5
+2016-11-25
+	* gpstec.m, gpstec_sh.m, glotec.m, glotec_sh.m: Modified to process
+	RINEX 1.xx data.
+	* README: Revised accordingly.
+2016-11-11
+	* getalldcb_c.m, getrecdcb.m, getrecdcb_c.m, getrecdcb_e.m,
+	getrecdcb_r.m: Removed unused parameters.
+2016-11-08
+	* slant2.m: Fixed a typo (changed elevation angle el to zenith angle
+	z).
+2016-10-26
+	* readbia.m, readbia_c.m: Adjusted if-expression for reading in new BDS
+	files.
+2016-10-04
+	* readbia.m, readbia_c.m: Replaced logical AND '&&' and OR '||' with
+	'&' and '|', respectively, for compatibility with MATLAB.
+2016-10-03
+	* ambiguity.m: Replaced a logical AND '&&' with '&' in 'Skip P1'
+	section for compatibility with MATLAB.
+Version 8.4b
+2016-09-21
+	* obs2mat.m, obs2mat_m.m: Screen non-Domes number from 'MARKER NUMBER'
+	for RINEX 2.
+	* readcrd.m: Improved the screening of non-Domes number.
+	* bdstec.m, bdstec_sh.m, galtec.m, galtec_sh.m, glotec.m, glotec_sh.m,
+	gpstec.m, gpstec_sh.m: Fixed a bug of checking receiver's XYZ file.
+	* gpstec.m, gpstec_sh.m: Fixed a typo in variable name 'yr'.
+Version 8.3b
+2016-09-02
+	* ambiguity_r.m: Fixed a typo.
+2016-09-01
+	* bdstec.m, bdstec_sh.m, galtec.m, galtec_sh.m, glotec.m, glotec_sh.m,
+	gpstec.m, gpstec_sh.m: No more rewrite receiver's XYZ file if file
+	exists, which allows parallelization when the file is locked.
+	* ambiguity_e.m: Fixed a typo.
+2016-08-30
+	* ambiguity.m, ambiguity_c.m, ambiguity_e.m, ambiguity_r.m: Refined
+	the data linking for small data gaps and removal of isolated data.
+	* Hmatrix.m: Used variable for number of satellites instead of fixed
+	numbers for GPS, GLONASS and Galileo.
+	* Hmatrix_e.m, Hmatrix_r.m: Removed.
+	* DCB/BDS.DCB: Created based on BDS data during 2016.217-233.
+	* bdstec.m, bdstec_sh.m: Read in BDS.DCB.
+	* README: Revised accordingly.
+2016-08-29
+	* ambiguity_c.m, bdstec.m, bdstec_sh.m, getalldcb_c.m, Hmatrix_c.m:
+	Estimated DCBs for BDS satellites.
+2016-08-28
+	* bdstec.m, bdstec_sh.m, checkvar.m, galtec.m, galtec_sh.m, glotec.m,
+	glotec_sh.m, gpstec.m, gpstec_sh.m, hrcrx2rnx.m, obs2mat.m,
+	obs2mat_m.m, skipcheck.m: Replaced logical(1) and logical(0) with
+	true() and false().
+	* ambiguity.m, ambiguity_c.m, ambiguity_e.m, ambiguity_r.m,
+	elevation.m, elevation_c.m, elevation_e.m, elevation_r.m: Replaced
+	~isfinite() with isnan().
+	* ambiguity.m, ambiguity_c.m, ambiguity_e.m, ambiguity_r.m: Filled
+	temporary data into small data gaps for linking data strings and
+	getting better ambiguity solution.
+Version 8.2b
+2016-08-25
+	* bdstec.m, bdstec_sh.m, galtec.m, galtec_sh.m, glotec.m, glotec_sh.m,
+	gpstec.m, gpstec_sh.m: Specified lower-case log file output.
+	* ambiguity.m, ambiguity_c.m, ambiguity_e.m, ambiguity_r.m: Fixed a
+	bug in cycle-slip detection, which may result in bad offset.
+Version 8.1b
+2016-08-24
+	* getrecdcb.m, getrecdcb_c.m, getrecdcb_e.m, getrecdcb_r.m: Check if
+	package 'mapping' loaded.  Load it if not.
+	* pgnstec.m: Added an example for GNSS-TEC parallel processing.
+2016-08-23
+	* bdstec.m, bdstec_sh.m, galtec.m, galtec_sh.m, glotec.m, glotec_sh.m,
+	gpstec.sh, gpstec_sh.m: Check if built-in function
+	save_default_options() exists for Octave version 3.8 or higher.  Moved
+	'pkg load mapping' to other functions.
+	* ambiguity.m, ambiguity_c.m, ambiguity_e.m, ambiguity_r.m: Removed
+	outlier detection and removal from slant TEC for normal TEC may be
+	considered as outliers due to extreme DCB.  Adjusted the maximum
+	tolerance of TEC difference from 3 to 0.2 for 1-s sampling, 1.2 for
+	others based on phase VTEC rather than slant TEC.  Fixed a bug in
+	detection and offset of cycle slips.
+Version 8.0b
+2016-08-22
+	* nav2mat.m: Replaced some str2num() with str2double().
+	* getrecdcb_r.m: Added input arguments 'sid' and 'freqn'.
+	* ambiguity.m, ambiguity_c.m, ambiguity_e.m, ambiguity_r.m: Revised
+	for compatibility with RINEX 3 data input.
+2016-08-21
+	* obs2mat.m: Revised for compatibility with RINEX 3 data input.
+	* obs2mat_m.m: Created instead of obs2mat_c.m, obs2mat_e.m, and
+	obs2mat_r.m for RINEX 2 and 3 data input.
+	* obs2mat_c.m, obs2mat_e.m, obs2mat_r.m: Removed.
+	* gpstec.m, gpstec_sh.m: Revised for compatibility with RINEX 3 data
+	input.
+	* bdstec.m, bdstec_sh.m, galtec.m, galtec_sh.m, glotec.m, glotec_sh.m:
+	Modified obs2mat_?() accordingly, and revised for compatibility with
+	RINEX 3 data input.
+	* README: Revised accordingly.
+2016-08-20
+	* bdstec.m, bdstec_sh.m, galtec.m, galtec_sh.m, glotec.m, glotec_sh.m,
+	gpstec.m, gpstec_sh.m: Added warning when the site is in the skip list
+	or no observation data found.
+	* ambiguity.m, ambiguity_r.m: Shifted valid year range from 1951-2050
+	to 1980-2079.
+	* checkvar.m: Created for checking variables in MAT-file.
+2016-08-19
+	* obs2mat.m, obs2mat_c.m, obs2mat_e.m, obs2mat_r.m: Changed error()
+	into warning() to return the flag message.
+2016-08-05
+	* *.m: Simplified the if-condition from exist(NAME, TYPE)==C to
+	exist(NAME, TYPE).
+	* vtec.m: Removed epoches from output.
+	* bdstec.m, bdstec_sh.m, galtec.m, galtec_sh.m, goltec.m, goltec_sh.m,
+	gpstec.m, gpstec_sh.m: Ignored unnecessary output from doy2ymd() and
+	vtec().
+Version 7.10
+2016-08-05
+	* obs2mat.m, obs2mat_c.m, obs2mat_e.m, obs2mat_r.m: Check for the
+	existence of 'TimeSystem' as a variable only.  Fixed a bug in string
+	comparison with 'TimeSystem' for compatibility with MATLAB.
+
+2016-08-04
+	* nav2mat.m: Used the default error message of fopen() instead.  Used
+	feof() instead of 1 for skipping the header.
+	* readbia.m, readbia_c.m: Adjusted the logical expression.  Used break
+	function instead of return function.
+2016-07-20
+	* obs2mat.m, obs2mat_c.m, obs2mat_e.m, obs2mat_r.m: Stop processing if
+	no any relevant observables found in the O-file.
+	* obs2mat_c.m: Fixed typos in GNSS type.
+Version 7.9
+2016-07-19
+	* readbia.m, readbia_c.m: Adjusted reading format for new BSX files in
+	naming convention and data format.
+Version 7.8
+2016-07-01
+	* glotec.m, glotec_sh.m: Fixed index expression repmat(...)(l) for
+	compatibility with MATLAB.
+Version 7.7
+2016-06-28
+	* getrecdcb_c.m: Fixed a typo in Hmastrix_c().
+2016-06-24
+	* sp32mat_e.m: Set variable 'ngal' for number of satellites.
+	* bdstec.m, bdstec_sh.m, ambiguity_c.m, elevation_c.m, getrecdcb_c.m,
+	Hmatrix_c.m, ionpt_c.m, obs2mat_c.m, readbia_c.m, sp32mat_c.m: Created
+	BDS data processor.
+	* obs2mat.m, obs2mat_r.m, obs2mat_e.m: Corrected the reading format
+	about interval.  Output time system parameter to file.
+	* gpstec.m, gpstec_sh.m, glotec.m, glotec_sh, galtec.m, galtec_sh.m:
+	Output time system parameter to MAT files.
+	* readbia.m: Set variable 'nsat' for number of satellites.
+	* README: Revised accordingly.
+Version 7.6
+2016-06-17
+	* gpstec.m,gpstec_sh.m, glotec.m, glotec_sh.m, galtec.m, galtec_sh.m:
+	Output year, day-of-year, the Domes number, site position (including
+	XYZ and latitude/longitude), and minimum TEC to MAT files.
+	* obs2mat.m, obs2mat_r.m, obs2mat_e.m: Output approximate XYZ to file.
+	* readcrd.m: Made more constrain on the Domes number (site with and
+	without Domes number are considered as different sites).  Besides,
+	try to read the site-specific file if the specified site not found in
+	CODE.CRD nor LOCAL.CRD.
+Version 7.5b
+2016-06-16
+	* sp3cubic.m: Fixed a bug in big-jump correction in theta, correcting
+	jumping upward problem for GLONASS (it never jump upward for GPS).
+Version 7.4b
+2016-06-01
+	* ambiguity.m, ambiguity_r.m, ambiguity_e.m: Remove outliers from
+	slant TEC derived from both code and phase observables.
+2016-05-27
+	* readbia.m: Modified to read the older files if the current file not
+	available.
+2016-05-21
+	* gpstec.m, gpstec_sh.m, glotec.m, glotec_sh.m, galtec.m, galtec_sh.m:
+	Added threshold of minimum observation numbers to make sure RDCB
+	estimate with sufficient input of observables.
+	* sp32mat_e.m: Replaced zeros with NaN's for null position/velocity
+	elements.
+	* elevation.m, elevation_r.m, elevation_e.m: Fixed a bug in the size
+	of arrays.
+2016-04-26
+	* sp32mat.m, sp32mat_e.m: Removed vector 'sid' from output for no use.
+	* galtec.m, galtec_sh.m: Modified to convert the (predicted) orbit
+	file from GFZ or IGS.
+	* README: Revised accordingly.
+2016-04-25
+	* sp32mat_e.m: Modified to read the (predicted) orbit file from GFZ or
+	IGS, and then output the Galileo orbit only.
+2016-04-22
+	* gpstec.m, gpstec_sh.m, glotec.m, glotec_sh.m, galtec.m, galtec_sh.m:
+	Removed SNR observables (S1, S2, S5) from file conversion for no use.
+	* readbia.m: Fixed two bugs in file opening and reading.
+	* ambiguity_e.m: Broadcasted the satellite DCB vector to array for
+	compatibility with MATLAB.
+	* ambiguity.m, ambiguity_r.m: Fixed a logical bug in unit conversion
+	for satellite DCB.
+Version 7.3b
+2016-04-18
+	* DLR0MGXFIN_201[56]*.BSX: Updated / added.
+2016-03-17
+	* readcrd.m: Replaced error() with warning() for CRD files check.
+2016-01-17
+	* readbia.m: Replaced MGEXyyyy.bsx with DLR0MGXFIN_*.BSX for more
+	information.
+2016-01-14
+	* galtec.m, galtec_sh.m: Fixed a bug with variable ReceiverName being
+	missing.
+2016-01-09
+	* ambiguity.m, ambiguity_r.m: Modified the valid years to 1951-2050
+	for consistency with other scripts in year conversion.
+	* ambiguity.m: Tolerate to use P1 instead C1 under A/S condition if all
+	zeros in C1.
+	* ambiguity.m, gpstec.m, gpstec_sh.m: Tolerate to use P1P29710_ALL.DCB
+	instead for Jan.-Sep. 1997. 
+2015-12-25
+	* gpstec.m, gpstec_sh.m, glotec.m, glotec_sh.m, galtec.m, galtec_sh.m:
+	Fixed a bug in the receiver DCB correction.
+Version 7.2b
+2015-12-24
+	* gpstec.m, gpstec_sh.m, glotec.m, glotec_sh.m, galtec.m, galtec_sh.m,
+	obs2mat.m, obs2mat_e.m, obs2mat_r.m: Replaced some break() with
+	return() for compatibility with MATLAB.
+	* obs2mat.m, obs2mat_e.m, obs2mat_r.m: Added 0.5-second pause to make
+	sure file being completely closed.
+	* sp3cubic.m: Replaced the interpolation method 'cubic' with 'pchip'.
+2015-12-23
+	* doy2gps.m, doy2ymd.m, gps2ymd.m, ymd2doy.m, ymd2gps.m: Revised for
+	vectors and fixed bugs in the leap years.  Renamed some variables for
+	consistency.
+Version 7.1b
+2015-12-21
+	* gpstec.m, gpstec_sh.m, glotec.m, glotec_sh.m, galtec.m, galtec_sh.m:
+	Replaced makerecdcb() with getrecdcb() and renamed some constants for
+	consistency.
+	* Get_IPP.m, Get_coef.m, getrecdcb.m, getrecdcb_r.m, getrecdcb_e.m,
+	Hmatrix.m, Hmatrix_r.m, Hmatrix_e.m, normP.m, slant2.m: Created for 
+	receiver DCB estimate.
+	* ambiguity.m, ambiguity_r.m, ambiguity_e.m: Renamed some variables
+	for consistency.
+	* DCB/STATION.DCB: Re-created for recording the station DCBs.
+	* makerecdcb.m, makerecdcb_r.m, makerecdcb_e.m: Removed.
+	* README: Revised accordingly.
+2015-12-04
+	* gpstec.m, gpstec_sh.m, glotec.m, glotec_sh.m, galtec.m, galtec_sh.m:
+	Added output of receiver's DCB RMS.
+	* makerecdcb.m: Fixed a bug in using ecef2lla().
+2015-12-02
+	* slant.m: Revised the help text.
+2015-11-09
+	* ambiguity.m, ambiguity_e.m, ambiguity_r.m: Fixed bugs in converting
+	NaN's to zero.
+	* makerecdcb.m, makerecdcb_e.m, makerecdcb_r.m: Adjusted the time
+	window for DCB estimate and simplified the block about eliminating the
+	outliers.
+Version 7.0b
+2015-10-23
+	* makerecdcb.m, makerecdcb_e.m: Added variables for the period of DCB
+	estimation instead of constants.
+	* makerecdcb_r.m: Created for GALONASS receiver DCB estimation.
+	* glotec.m, glotec_sh.m: Applied receiver DCB estimation if the value
+	is unknown.
+	* vtec.m: Added variables for the period of TEC minimum instead of
+	constant.
+	* STATION.DCB: Removed.
+	* README: Revised for this new version.
+2015-10-22
+	* ambiguity.m, ambiguity_r.m, ambiguity_e.m, ionpt.m, ionpt_r.m,
+	ionpt_e.m, readcrd.m, vtec.m: Modified parameters in single-precision
+	to double-precision.
+	* ambiguity.m, ambiguity_r.m, ambiguity_e.m, galtec.m, galtec_sh.m,
+	glotec.m, glotec_sh.m, gpstec.m, gpstec_sh.m, slant.m, vtec.m:
+	Modified the upper and lower bounds of ionosphere to 650 and 250 km.
+	* makerecdcb.m: Added variable for number of satellites instead of
+	constant.
+	* vtec.m: Combined arguments STECL and AMB into STEC and omitted the
+	slant TEC from output.
+2015-10-21
+	* makerecdcb.m, makerecdcb_e.m: Created for GPS and Galileo receiver
+	DCB estimation.
+	* gpstec.m, gpstec_sh.m, galtec.m, galtec_sh.m: Applied receiver DCB
+	estimation if the DCB value is unknown.
+Version 6.2
+2015-10-15
+	* ambiguity_r.m: Fixed a typo in the section of space allocation.
+2015-09-11
+	* README: Revised about Galileo-TEC data processing.
+	* galtec.m: Fixed the satellite DCBs.
+	* galtec_sh.m: Created for the use in the Unix-like environment.
+	* hrcrx2rnx.m: Removed the constrain on satellite systems and
+	observables.
+	* ambiguity_e.m: Fixed the satellite DCBs.
+	* readbia.m: Created for reading Galileo satellite DCBs and output it.
+Version 6.1
+2015-08-04
+	* crx2rnx.m: Created to convert daily RINEX OBS files.
+	* hrcrx2rnx.m: Removed the implicit path.  Added 'ismac' in the
+	logical expression.
+	* skipcheck.m: Fixed a warning message in number-character conversion.
+2015-07-16
+	* ambiguity.m, ambiguity_e.m, ambiguity_r.m: Changed the regular
+	expressions for function 'clear' for regulation change in Octave 4.0.0.
+2015-02-05
+	* obs2mat.m, obs2mat_r.m, obs2mat_e.m: Removed argument '-phc' of
+	teqc.
+	* gpstec.m, gpstec_sh.m, glotec.m, glotec_sh.m, galtec.m: Added
+	argument '-phc' to teqc.
+	* dcb2mat.m: Fixed some reading bugs.
+2015-01-23
+	* ambiguity.m: Fixed bugs in handling the anti-spoofing data -- no more
+	compensate P1 array with C1 elements.
+	* STATION.CRX: Created skip list for station check.
+	* skipcheck.m: Created to check the problem stations.
+	* gpstec.m: Added function for station check.
+	* glotec.m, ambiguity_r.m: Discarded observable P1 (always use C1).
+	* elevation.m, elevation_r.m, elevation_e.m, ionpt.m, ionpt_r.m,
+	ionpt_e.m: Removed unnecessary uppercase conversion.
+	* doy2ymd.m: Allowed two- and four-digit year input and four-digit year
+	output.
+	* ymd2gps.m: Allowed two- and four-digit year input.
+	* gpstec.m, gpstec_sh.m, glotec.m, glotec_sh.m, galtec.m: Added year
+	output for new syntaxes of several functions.
+	* obs2mat.m, obs2mat_r.m, obs2mat_e.m: Output flag after station check.
+2015-01-20
+	* vtec.m: Set 0 for all slant TEC < 0.
+2015-01-15
+	* gpstec.m, gpstec_sh.m, glotec.m, glotec_sh.m, galtec.m: Output the
+	DOMES number to log files.
+2015-01-12
+	* DCB/STATION.DCB: Fixed some parameters and added DCB for GLONASS.
+2015-01-09
+	* run_gpstec1.pl:  Modified and renamed from run_gpstec.pl for revised
+	gpstec_sh.m.
+	* LOCAL.CRD, DCB/STATION.DCB: Added additional information and DOMES
+	numbers.
+2015-01-08
+	* elevation.m, elevation_r.m, elevation_e.m, ionpt.m, ionpt_r.m,
+	ionpt_e.m, readcrd.m, vtec.m: Corrected the logical expression about
+	the DOMES number.
+2015-01-07
+	* dcb2mat.m: Renamed from coddcb2mat.m.  Output all of DCB values
+	including station DCBs.
+	* ambiguity.m, ambiguity_r.m: Used P1P2YYMM_ALL.DCB instead of
+	P1P2YYMM.DCB.
+	* gpstec.m, gpstec_sh.m, glotec.m, glotec_sh.m: Used P1P2YYMM_ALL.DCB
+	instead of P1P2YYMM.DCB.  Removed receiver/station DCB (RDCB) input
+	from the list of arguments.  Instead, retrieved it from the DCB files.
+	* galtec.m: Removed RDCB input from the list of arguments.  Instead,
+	retrieved it from the DCB files.
+	* DCB/P1P2YYMM_ALL.DCB: Added DCB/P1P2YYMM.DCB to replace the original
+	P1P2YYMM.DCB.  The latter was removed.
+	* DCB/STATION.DCB: Created station-based DCB file.
+	* old/: Removed.
+Version 6.0
+2014-10-28
+	* gpstec.m, gpstec_sh.m, glotec.m, glotec_sh.m: Added observables S1
+	and S2 output to MAT-files for future DCB estimation.
+	* galtec.m: Added observables S1 and S5 output to MAT-files for future
+	DCB estimation.
+2014-10-15
+	* ambiguity.m, ambiguity_e.m, ambiguity_r.m: Converted NaN's into zeros
+	before output.
+	* vtec.m: Retained negative VTEC instead of replacing the negative with
+	zeros.  Removed constraint on slant TEC.  Adjusted the output format of
+	'mintec' for negative values.
+2014-07-16
+	* ambiguity.m, ambiguity_e.m, ambiguity_r.m: Fixed a bug in taking
+	indices in cycle slip detection.
+	* LLT_demo/: Removed.
+	* multipath.m: Removed this file.
+	* README: Removed the related description accordingly.  Adjusted some
+	wording in acknowledgment section.
+2014-04-23
+	* README: Updated author information.
+2014-04-14
+	* smooth.m: Converted the output matrix into the type of the input
+	matrix if the latter is sparsed and/or contains non-numeric elements.
+2014-04-12
+	* LOCAL.CRD: Updated site information.
+2014-03-26
+	* README: Fixed some description regarding to IGU file name.
+2014-02-23
+	* obs2mat_e.m: Fixed a typo on if-then expression.
+	* vtec.m: Fixed a typo on shifting latitude to shifting longitude.
+2014-01-16
+	* ambiguity_r.m: Removed an unnecessary double().
+2014-01-10
+	* LOCAL.CRD: Updated site information.
+	* gpstec.m, gpstec_sh.m, glotec.m, glotec_sh.m, galtec.m: Output the
+	DCB value of receivers to the MAT-file.
+2014-01-09
+	* gpstec.m, gpstec_sh.m, glotec.m, glotec_sh.m, galtec.m, obs2mat.m,
+	obs2mat_r.m, obs2mat_e.m: Removed pause() to speed up the performance
+	for about 55%.
+2014-01-04
+	* gpstec.m, gpstec_sh.m: Moved CMD command and a part of 'teqc' to
+	obs2mat().  Shortened the waiting time from 5 to 3 in pause().
+	* glotec.m, glotec_sh.m: Moved CMD command and a part of 'teqc' to
+	obs2mat_r().  Shortened the waiting time from 5 to 3 in pause().
+	* galtec.m: Moved CMD command and a part of 'teqc' to obs2mat_e().
+	Shortened the waiting time from 5 to 3 in pause().
+	* obs2mat.m, obs2mat_r.m, obs2mat_e.m: Added CMD, teqc and pause()
+	commands.
+	* README: Added description about RINEX version.
+2013-11-28
+	* ambiguity.m, ambiguity_e.m, ambiguity_r.m, elevation.m, elevation_e.m
+	elevation_r.m, ionpt.m, ionpt_e.m, ionpt_r.m, obs2mat.m, obs2mat_e.m,
+	obs2mat_r.m, readcrd.m, vtec.m: Refined the use of exist() for
+	compatibility with MATLAB (exist(NAME, 'file') returns 2 only for file
+	in Octave but returns 2 and 5 for file and directory, respectively, in
+	MATLAB.
+2013-11-27
+	* gpstec.m, gpstec_sh.m: Added observables S1 and S2 in teqc
+	processing.
+	* multipath.m: Added a new script for estimating multipath effect.
+2013-11-26
+	* ambiguity.m, ambiguity_e.m, ambiguity_r.m: Updated the ionospheric
+	coefficient 40.3 to 40.3082.
+2013-11-08
+	* galtec.m, ambiguity_e.m, elevation_e.m, ionpt_e.m, obs2mat_e.m,
+	sp32mat_e.m: Created Galileo data processor.
+	* README: Added description about Galileo-TEC data processing.
+	* gpstec.m, gpstec_sh.m, glotec.m, glotec_sh.m: Simplified if-then
+	structure.
+	* ambiguity.m, ambiguity_r.m, elevation.m, elevation_r.m, ionpt.m,
+	ionpt_r.m, obs2mat.m, obs2mat_r.m: Created new variables 'nsat' for
+	number of satellites.
+2013-11-07
+	* run_gpstec.m: New perl script for automatic testing.
+	* vtec.m: Fixed a bug with handling the elevation array.
+2013-11-04
+	* ambiguity.m, ambiguity_r.m: Fixed some typos.
+	* elevation.m, elevation_r.m, ionpt.m, ionpt_r.m, vtec.m: Moved
+	input argument Domes to the end.
+	* gpstec_sh.m, glotec_sh.m: Fixed a bug with ASCII data output.
+	* gpstec.m, gpstec_sh.m, glotec.m, glotec_sh.m: Added constrain on
+	start hour of orbits and removed other invalid data screening.
+2013-11-03
+	* ambiguity.m, ambiguity_r.m, gpstec.m, gpstec_sh.m, glotec.m,
+	glotec_sh.m: Modified the strategy of GPS/GLONASS DCB calibration,
+	i.e., no more applying the first DCB files on the data which date is
+	earlier than the DCB date.
+Version 6.0b
+2013-11-02
+	* coddcb2mat.m: Modified the output file name by keeping the full input
+	file name except for the suffix.
+2013-11-01
+	* ambiguity.m, ambiguity_r.m: Removed bad observational data according
+	to the event flag.  Fixed a Y2K bug.  No data gaps filled anymore.
+	* gpstec.m, gpstec_sh.m, glotec.m, glotec_sh.m: Renamed the file names
+	of the main scripts (gps5.m to gpstec.m; gps5sh.m to gpstec_sh.m, and
+	so on).
+	* gpstec.m, gpstec_sh.m: Compensated orbital XYZ columns if not
+	sufficient.  Applied the first available DCB files instead if the input
+	date is too early.
+	* gpstec_sh.m, glotec_sh.m: Rearranged the ASCII output file name and
+	content based on the request of TACC.
+	* README: Updated related statement accordingly.
+2013-10-31
+	* ambiguity.m, ambiguity_r.m: Fixed a bug with compensating sufficient
+	tail of observational arrays.  Check and collect valid file names
+	only.
+	* obs2mat.m, obs2mat_r.m: No more checking if tmp{k} is empty before
+	compacting since it has been allocated with zeros at the beginning.
+2013-10-11
+	* coddcb2mat.m: Fixed a bug for compatibility with MATLAB about logical
+	expression.
+2013-10-10
+	* ambiguity.m, ambiguity_r.m: Fixed a bug with trimming out unwanted
+	elements before the first epoch.
+2013-09-30
+	* ambiguity.m, ambiguity_r.m: Compensated non-zero elements in C1 into
+	corresponding elements in P1.
+2013-09-26
+	* gps5.m, gps5sh.m, glo5.m: Added zero-element synchronization with
+	VTEC, longitude and latitude arrays.
+2013-09-25
+	* gps5.m, gps5sh.m, glo5.m: Fixed a logical bug with synchronizing the
+	elevation angle array with the VTEC array.  Removed some unused
+	program statements.
+	* sp3cubic.m: Added extrapolation in order to compensate the tail of
+	the orbits.
+2013-08-20
+	* sp32mat.m: Replaced '32' with 'max(sid)' for the number of satellites
+	less than 32, for example, LEO satellites.  Replaced 'NaN*ones()' with
+	simpler 'NaN()'.
+2013-08-15
+	* readcrd.m: Fixed a bug with reading the body of the CRD files.
+	* obs2mat.m, obs2mat_r.m: Replaced int8() with logical() for 'event_
+	flag'.
+2013-08-14
+	* glo5.m: Fixed a bug with reading the P1C1 DCB files and adjusted the
+	size of some arrays to fit 26 columns.
+	* glo5sh.m: New script same as glo5.m but with shebang.
+	* vtec.m: Fixed a bug of units regarding ecef2lla().
+2013-08-13
+	* README: Improved some wording.
+	* ambiguity_r.m: Fixed a bug for slot numbers in the BRDC files less
+	than 26.
+	* gps5sh.m: Fixed a bug of syntax.
+	* obs2mat.m, obs2mat_r.m, navcubic.m, sp32mat.m, sp3cubic.m: Replaced
+	unnecessary uint8(), uint16() and uint32() with int8(), int16() and
+	int32().
+	* LOCAL.CRD: Added the JCG sites.
+2013-08-12
+	* DCB/P1C1????_RINEX.DCB: Replaced DCB/P1C1????.DCB with DCB/P1C1????_
+	RINEX.DCB for the latter includes both GPS and GLONASS information.
+	* glo5.m, ambiguity_r.m, elevation_r.m, ionpt_r.m, obs2mat_r.m,
+	navcubic.m: Extended the column number of the arrays from 24 to 26 for
+	data from R26 were found in the DCB directory.
+	* gps5.m, gps5sh.m: Swaped the series of handling SP3 files.  Modified
+	the reading syntax for the DCB files accordingly.  Added label 'GPS'
+	into the log files.
+	* glo5.m: Added label 'GLONASS' into the log files.
+2013-08-09
+	* (Title):  Modified the software name from GPS-TEC to GNSS-TEC.
+	* README: Modified the description accordingly.
+	* glo5.m, ambiguity_r.m, elevation_r.m, ionpt_r.m, obs2mat_r.m,
+	nav2mat.m: Added several scripts for GLONASS-TEC data processing.
+	* gps5.m, gps5sh.m, ambiguity.m, elevation.m, hrcrx2rnx.m, ionpt.m,
+	obs2mat.m: Modified some description and fixed some bugs.
+	* readcrd.m, slant.m, sp3cubic.m, sp32mat.m, vtec.m: Modified some
+	description and added compatibility for GPS and GLONASS.
+
+Version 5.0b
+2013-08-08
+	* MISC.CRD: Created the new CRD file for unsure sites, which was
+	adopted from markers_misc.crd.  The latter was removed.
+	* sp32mat.m: Modified to read velocity data and GLONASS data in both
+	version types A and C.  Precise orbit files from CODE are now
+	acceptable.
+	* gps5.m, gps5sh.m: Orbit files from CODE are now acceptable.
+2013-08-07
+	* readcrd.m: Check if the input DOMES number is legal.  Changed the
+	order of CRD files by reading LOCAL.CRD first and then CODE.CRD.
+	* obs2mat.m: Removed the checking on MARKER NAME.
+2013-08-02
+	* markers.crd: Removed.
+	* readcrd.m: Created new function for reading CRD files.
+	* elevation.m, gps5.m, gps5sh.m, ionpt.m, obs2mat.m, vtec.m: Modified
+	related I/O interface for reading CRD files.
+	* coddcb2mat.m: Modified to skip non-PRN data, i.e., ground data.
+	* sp32mat.m: Added reading SP3 version type.
+2013-08-01
+	* CODE.CRD, LOCAL.CRD: Added CRD files from CODE and other agencies
+	to replace the old CRD file, i.e., markers.crd.
+	* markers_misc.crd: Removed redundant data.
+2013-07-22
+	* markers.crd: Added coordinate information from GeoNet, New Zealand (
+	GNS).
+2013-06-04
+	* README: Clarified some wording.
+	* smooth.m: Used variable points as input instead of fixed points.
+2013-04-01
+	* obs2mat.m, obs2mat_e.m, obs2mat_r.m: Fixed a bug with creating
+	sufficient temporary arrays.
+2013-03-21
+	* ambiguity_e.m, ambiguity_r.m, elevation_r.m, gal5.m, glo5.m,
+	ionpt_r.m, nav2mat.m, navcubic.m, obs2mat_e.m, obs2mat_r.m: Created or
+	updated for GLONASS and Galileo TEC processing.
+2013-03-20
+	* nav2mat.m: Created for converting RINEX NAV files into MAT-files.
+2013-03-15
+	* gps5sh.m: Disabled window system for execution without X11.
+2013-03-14
+	* ambiguity.m, ambiguity_e.m: Trimed out the tail of vector ep to make
+	sure the same length as observation arrays.
+2013-03-13
+	* obs2mat.m, obs2mat_e.m, obs2mat_r.m: Created zero arrays instead of
+	null arrays for data types which is not available.
+2013-03-07
+	* ambiguity.m, ambiguity_e.m: Adjusted a syntax for compatibility with
+	MATLAB.
+2013-03-06
+	* README: Fixed some typos and adjusted some wording.
+	* elevation.m, elevation_e.m, obs2mat.m, obs2mat_e.m, obs2mat_r.m,
+	smooth.m, sp3cubic.m: Used isfinite() instead of finite() for
+	compatibility with MATLAB.
+	* markers.crd, markers_misc.crd:  Created real coordinate file,
+	markers.crd, instead of symbolic link.  Combined markers_CWB.crd,
+	markers_IGS.crd and markers_MOI.crd into markers.crd and removed the
+	former three files.  Added column AGENCY in markers.crd and
+	markers_misc.crd in order to remark the owner of the sites or the name
+	of the databases.
+2013-03-04
+	* ambiguity.m, ambiguity_e.m, coddcb2mat.m: Used str2double() instead
+	of str2num() to speed up the performance.
+	* elevation.m, elevation_e.m, ionpt.m, ionpt_e.m, vtec.m: Used
+	str2double() instead of str2num().  Fixed a bug of XYZ conversion.
+	* gps5.m, gps5sh.m: Updated the header of the scripts.  Removed data
+	types S1 and S2 from O-file after 'teqc' conversion.
+	* obs2mat.m: Used str2double() instead of str2num(), created temporary
+	arrays instead of some eval() to speed up the performance for about
+	140%.
+2013-01-22
+	* gps5.m, gps5sh.m, vtec.m: Added slant TEC output.
+	* README: Updated the content accordingly.
+2013-01-17
+	* gps5sh.m: Changed default_save_options setting to '-7' for
+	compatibility with MATLAB.
+2013-01-14
+	* gps5.m, gps5sh.m: Rewrote the header and fixed some minor bugs.
+	Used the new function sp3cubic.m instead of sp3spline.m.
+	* sp3cubic.m, sp3spline.m: Used cubic interpolation instead of spline()
+	for dealing with data missing.  Renamed sp3spline.m to sp3cublic.m.
+2012-12-10
+	* elevation.m, elevation_e.m: Set all NaN's to be zeros.
+	* gps5.m, gal5.m: Removed the temporary files a little bit earlier.
+	* hrcrx2rnx.m: Specified only *.Z files to be processed (no *.gz).
+	* smooth.m: Changed sampling points from 30 to 15.
+2012-12-08
+	* ambiguity.m:  Fixed a bug of indexing.
+	* sp32mat.m: Marked bad or absent XYZ with NaN's.
+	* sp3spline.m: Fixed a bug with dealing with NaN's during data
+	interpolation.
+2012-12-03
+	* obs2mat.m, obs2mat_e.m: Specified the amount of the EPOCH / SAT data
+	to read.
+	* glo5.m, obs2mat_r.m: New scripts for GLONASS-TEC data processing.
+2012-11-29
+	* ambiguity_e.m, elevation_e.m, ionpt_e.m, obs2mat_e.m: New scripts for
+	Galileo-TEC data processing.  Notice that L1 and L5 are used rather
+	than L1 and L2 on GPS.
+	* vtec.m: Fixed a bug with trimming out the corrent number of unwanted
+	elements of elevation.
+2012-11-27
+	* gal5.m: New script for Galileo-TEC data processing.
+	* elevation.m, ionpt.m: Replaced 32 with vector 'nc'.
+	* gal17124i30.mat: New Galileo orbit data for testing.
+	* wind3060.12o: New Galileo OBS file for testing.
+2012-11-13
+	* ambiguity.m: Got rid of weird PRN numbers more than 32.
+	* README: Used new data samples and updated the names of those files.
+2012-10-11
+	* obs2mat.m: Renamed rnx2mat.m to obs2mat.m and do some logical
+	improvement.
+	* gps5.m, gps5sh.m: Used obs2mat() instead of rnx2mat().
+2012-09-21
+	* ambiguity.m: Fixed a bug to make sure all the output arrays in the
+	same number of rows.
+2012-08-29
+	* gps5.m: Loosened the regular expression for compatibility with DOS
+	control key '^M' at the end of each line in the O-file.
+2012-06-21
+	* sp3spline.m: Fixed a bug of angle connection.
+	* DCB/:  Updated DCB directory by adding new files.
+2012-06-20
+	* ambiguity.m: Fixed a bug of logical expression.
+2012-06-19
+	* ambiguity.m, elevation.m, gps5.m, gps5sh.m, ionpt.m, sp32mat.m,
+	vtec.m: Used logical expression instead of find() to speed up the
+	performance for about 18%.
+	* gps5sh.m: Added MAT-file output.
+2012-06-06
+	* All M-files (except for gps5sh.m): Applied Matlab-compatible syntax
+	for checking number of input arguments.
+	* ambiguity.m: Replaced syntax 'x-=a' and finite() with 'x=x-a' and
+	isfinite() for compatibility with MATLAB.  Removed three regular
+	expressions for the same season.
+	* gps5.m: Replaced exist(F,2) with exist(F,'file') for compatibility
+	with MATLAB.  Fixed a syntax bug for findstr() and some logical bugs.
+	* gps5sh.m: Fixed a snytax bug for findstr() and some logical bugs.
+	* markers.crd: Replaced symbolic link with hard link from markers_*.crd
+	to markers.crd for compatibility with MS-DOS.
+	* rnx2mat.m: Used syntax of fscanf() for compatibility with MATLAB.
+	* vtec.m: Used syntax 'x=x-a' instead of 'x-=a', 'x=x*a' instead of
+	'x*=a', isfinite() instead of finite() for compatibility with MATLAB.
+2012-06-05
+	* elevation.m: Made sure all opened data files closed before finish.
+	* gps5.m: Removed two regular expressions for compatibility with MATLAB.
+	* ionpt.m: Made sure all opened data files closed before finish.
+	* rnx2mat.m: Made sure all opened data files closed before finish.
+	* sp32mat.m: Removed unit8() on variable 'nsat' for compatibility with
+	MATLAB.
+	* vtec.m: Made sure all opened data files closed before finish.
+2012-06-04
+	* coddcb2mat.m: Used syntax 'i=i+1' instead of 'i++' for compatibility
+	with MATLAB.
+	* rnx2mat.m: Replaced 'i++' with 'i=i+1' for the same reason.
+2012-05-31
+	* rnx2mat.m: Allocated space for observables to speed up the processing.
+
+Version 5.0a
+2012-05-21
+	* rnx2mat.m: Rename variable eflag to event_flag and replaced
+	logical(eflag') with uint8(event_flag') as event_flag can be 2 to 6.
+2012-05-20
+	* gps5.m: Used pause() instead of sleep() for compatibility with MATLAB.
+	* gps5sh.m: Replaced sleep() with pause() for the same reason.
+	* hrcrx2rnx.m: Replaced sleep() with pause() for the same reason.
+2012-05-17
+	* sp32mat.m: Fixed a bug of handling XYZ arrays for the number of
+	satellites less than 32.
+2012-05-15
+	* ambiguity.m: Replaced isna() with isnan().
+	* gps5.m: Replaced isna() with isnan().
+	* gps5sh.m: Replaced isna() with isnan().  Modified the output file
+	type from binary MAT-files to ASCII files for TACC.
+	* elevation.m: Replaced norm(V,'rows') with sqrt(x.^2+y.^2+z.^2) for
+	older version of Octave and Matlab.
+	* ionpt.m: Replaced norm(V,'rows') with sqrt(...) for the same reason.
+	Shifted longitude from (180+, 360] to (-180-, 0].  Fixed a bug with
+	calculating XYZ coordinate of the ionospheric points.
+	* sp3spline.m: Re-added double() on variable 'seconds'.
+	* vtec.m: Shifted longitude from (180+, 360] to (-180-, 0].
+2012-05-14
+	* gps5sh.m: New added script same as gps5.m but with shebang.
+	* sp32mat.m: Fixed a bug of row-column orders.
+	* sp3spline.m: Removed double() from variable 'seconds'.
+2012-05-12
+	* ambiguity.m: Replaced all NA's with NaN's for Matlab.
+	* gps5.m: Fixed a bug of epoch processing.
+	* ionpt.m: Replaced all NA's with NaN's for Maltab.
+	* sp32mat.m: Replaced all NA's with NaN's for Matlab.
+	* vtec.m: Replaced all NA's with NaN's for Matlab.
+2012-05-10
+	* ambiguity.m: Allow 1 to 2 elements of hour input.
+	* gps5.m: Allow 1 to 2 elements of hour input.
+2012-05-09
+	* ambiguity.m: Removed single data, i.e., no data just before and after
+	this point.  Filled up two-element gaps due to cycle slips.
+	* hrcrx2rnx.m: Allow 1 to 2 elements of hour input.
+	* smooth.m: Fixed two bugs for data smoothing.
+2012-05-08
+	* README: Updated the introduction.
+	* ambiguity.m: Fixed a logical bug with filling up the gaps.  Defined
+	cycle slip occurring when |STEC(t1)-STEC(t2)|>3 TECU, not 10 TECU.
+	* gps5.m: Adjusted syntax for compatibility with UNIX and MS-DOS.
+	* hrcrx2rnx.m: Adjusted syntax for compatibility with UNIX and MS-DOS.
+	* doy2gps.m, doy2ymd.m, ymd2doy.m: Removed endfunction() for
+	compatibility with MATLAB.
+	* sp32mat.m: Removed a logical bug with reading files.
+2012-05-07
+	* ambiguity.m: Filled up single gaps due to cycle slips.
+	* doy2gps.m: New script converting day of year to GPS week and day of
+	the week.
+2012-05-03
+	* gps5.m: Trimmed out the redundant information in OBS files with teqc.
+	Renamed temporary files for the sake of multiple processing.
+	* markers_*.crd: Added headers to all CRD files.
+	* elevation.m: Skipped the header of the CRD files.
+	* rnx2mat.m: Print out the length of PRNs and stop if the length is too
+	short.
+	* vtec.m: Skipped the header of the CRD files. 
+	* hrcrx2rnx.m: Renamed temporary files for the sake of multiple pro-
+	cessing.
+2012-04-24
+	* gps5.m: Added the new main script for this version.
+	* old/: Created directory 'old' and moved old files into it.
+	* README: Update the instruction file.
+
+Version 4.7
+2012-03-22
+	* gps47: Tested with PGI Fortran 90 compiler on x64.  No errors found.
+	* README: Renewed the test data and modified the file names in README.
+2011-12-22
+	* ChangeLog: Wording improved.
+2011-11-19
+	* gps47.f: Shortening the period for calcuating minimum VTEC from 30
+	epochs to 20 epochs as the original period for site KERG exceeds the
+	size of the data array.  This is just a quick workaround.
+
+Version 4.6
+2011-03-16
+	* gps46.f: SOH check for PRN 32 removed.
+	* gps46.f: Ignored the Galileo and SBAS data.
+2010-11-22
+	* gps46.f: Renamed gps4.f to gps46.f.  Health of status (SOH) check
+	added to get rid of PRN 32 which is temporarily unhealthy.
+	* gps46.f: Renamed marker.crd to markers.crd for coincidence with
+	markers_CWB.crd and markers_IGS.crd.
+	* markers_CWB.crd: Created new CWB coordinate file instead of the old
+	coordinate file, marker.crd.
+	* markers_IGS.crd: Created new IGS coordinate file instead of the old
+	coordinate file, marker.crd.
+	* markers.crd: Symplink to markers_CWB.crd or markers_IGS.crd
+	depending on which GPS data to be read.
+
+Version 4.5
+2007-12-17
+	* gps4.f: P1C1 DCB files used for the lack of P1.  Modified some
+	output syntax for not confusing with free style Fortran code.
+	Rewrote some remarks in gps4.f for easy reading.
+	* gps4inc.f: Renamed gps4.par to gps4inc.f for color syntax in vi
+	editor.
+	* DCB/: Moved all of the DCB files to the DCB directory.
+	* README: Update.
+2007-12-14
+	* ChangeLog: Created ChangeLog file.
+	* README: Moved the update message to ChangeLog.
+2006-04-14
+	* gps4.f: Corrected the output format of slant TEC value to (1x,f6.2).
+2005-10-04
+	* gps4.f: Data types other than P1, P2, L1, L2, C1 at column 5 of the
+	O-file ignored.
+2005-07-26
+	* marker.crd: Updated the coordinates.  Notice that there are two
+	markers named "sunm" at Taiwan and Australia, respectively.  Only the
+	one at Taiwan is recorded in the file.
+2005-07-13
+	* gps4.f: Compatible with the navigation data in RINEX version 1.
+2005-06-27
+	* gps4.f: Initialized variables K and SUM with 0 in subroutine MINTEC.
+2005-06-17
+	* gps4.f: Initialized variable DOY with 0 in subroutine OBSDATE.
+2004-08-13
+	* gps4.f: Compatible with the observation files where the statement
+	"END OF HEADER" is missing.
+
+2004-07-26
+	* gps4.f: More description added.  Day of year is used instead of the
+	Julian date.
+2003-10-14
+	* gps4.f: Read GPS DCB but discarded GLONASS DCB.
+2003-07-27
+	* gps4.f: Read GPS observation data but discarded GLONASS data
+	provided by Ashtech Z18 and other GLONASS-compatible receivers.
+2002-03-27
+	* gps4.f: Compatible with the navigation files where the statement
+	"END OF HEADER" is missing.
+2002-01-17
+	* gps4.f: Read BRDC files instead of the associated broadcast ephemeris
+	file if available.
+2001-08-28
+	* gps4.f: Use parameterization as input.
+
+Version 4.0
+2001-03-02
+	* gps4.f: Major revision on solutions of ambiguities, cycle slips,
+	extraordinary time resolution, and satellite differential bias, etc.
+	Change the definition of DCB as P1-P2 according to CODE, instead of
+	the previous definition, P2-P1.
+
+Version 3.6
+2001-02-22
+	* gps36.f: Modified subroutine AMBIGUITY to solve severe cycle slips
+	and to improve the quality of TEC estimates.
+
+Version 3.5
+2001-02-21
+	* gps35.f: Renewed Subroutine AMBIGUITY with a better detecting and
+	offsetting method.  Data overflow in slant TEC output fixed.  Two
+	satellite biases in SATBIAS added.
+
+Version 3.4
+2000-11-09
+	* gps34.f: Ignored extra types of observation (e.g. D1, S2) in the
+	RINEX format data.  A bug on the slant TEC output fixed.
+
+Version 3.3
+	* gps33.f: A bug in subroutine MINTEC fixed.
+
+Version 3.2
+	* gps32.f: Read C1 instead of P1 for the lack of P1.  Y2K problem
+	fixed.
+
+Version 3.1
+	* gps31.f: Some logical problems in subroutine HEADER fixed.
+	* MARKPOS.DAT: Created coordinate file MARKPOS.DAT, which is read
+	instead of the approximate coordinate in the observation file.
+	* gps31.f: Check the date consistency between file name and its
+	content.  Abort when inconsistent.  More description added.  Ignored
+	wrong TEC values caused by P1=P2 while S/N < 3 in L1 or L2.
+

@@ -1,0 +1,353 @@
+				GNSS-TEC
+                                              Last updated January 3, 2016
+
+INTRODUCTION
+
+The GNSS-TEC program mainly derives the total electron content (TEC) in iono-
+sphere for each epoch and satellite at the specified ground-based receiver by
+retrieving the dual-frequency observables of code and carrier phase from the
+global navigation satellite systems (GNSS) including GPS, GLONASS (GLO),
+Galileo (GAL) and Beidou/Compass (BDS).  It returns both of the slant and
+vertical TEC, the corresponding elevation angle of each satellite, and the
+longitude/latitude at the ionospheric points.
+
+The scripts have been tested with GNU Octave 4.0.0 on Linux.  They may be com-
+patible with Octave in Mac and DOS but not tested yet.  Besides, they may be
+compatible with Matlab(R) but not tested yet, either.  For Octave and Matlab(R)
+users, the mapping toolbox may need to be pre-installed for estimating the
+differential code biases (DCBs) of stations and/or satellites.
+
+Some scripts need to call program 'teqc' in order to edit the OBS files.  The
+program can be downloaded at
+
+ http://facility.unavco.org/software/teqc/teqc.html#executables
+
+The complete set of the program includes:
+
+ ChangeLog		Update information
+ README			This file
+ ambiguity.m		Solve ambiguity for GPS
+ ambiguity_c.m		Solve ambiguity for BDS
+ ambiguity_e.m		Solve ambiguity for Galileo
+ ambiguity_r.m		Solve ambiguity for GLONASS
+ bdstec.m		BDS-TEC data processor
+ bdstec_sh.m		BDS-TEC data processor (with shebang)
+ checkvar.m		Check if MAT-file contains specified variable
+ crx2rnx.m		Convert daily compact RINEX OBS files into RINEX files
+ dcb2mat.m		Convert DCB file into MAT-file
+ doy2gps.m		Convert day of year into GPS week and day of the week
+ doy2ymd.m		Convert day of year into month and day of the month
+ ecef2lla.m		Convert ECEF cartesian coordinates into lat/lon/alt
+ elevation.m		Calculate elevation angle of GPS satellites
+ elevation_c.m		Calculate elevation angle of BDS satellites
+ elevation_e.m		Calculate elevation angle of Galileo satellites
+ elevation_r.m		Calculate elevation angle of GLONASS satellites
+ galtec.m		Galileo-TEC data processor
+ galtec_sh.m		Galileo-TEC data processor (with shebang)
+ Get_coef.m		Estimate coefficients of spherical harmonic function
+ Get_IPP.m		Estimate the location of the ionospheric points
+ getalldcb.m		Estimate DCB of GPS receiver and satellites
+ getalldcb_c.m		Estimate DCB of BDS receiver and satellites
+ getrecdcb.m		Estimate DCB of GPS receiver
+ getrecdcb_e.m		Estimate DCB of Galileo receiver
+ getrecdcb_r.m		Estimate DCB of GLONASS receiver
+ glotec.m		GLONASS-TEC data processor
+ glotec_sh.m		GLONASS-TEC data processor (with shebang)
+ gps2ymd.m		Convert GPS week into year, month, day
+ gps2doy.m		Convert GPS week into day of year
+ gpstec.m		GPS-TEC data processor
+ gpstec_sh.m		GPS-TEC data processor (with shebang)
+ Hmatrix.m		Generate the design matrix for spherical harmonics for
+			GNSS
+ Hmatrix_m.m		Generate the design matrix for spherical harmonics for
+			GPS and BDS
+ hrcrx2rnx.m		Convert high-rate zipped compact RINEX OBS files into
+			RINEX files
+ ionpt.m		Estimate location of the ionospheric points for GPS
+ ionpt_c.m		Estimate location of the ionospheric points for BDS 
+ ionpt_e.m		Estimate location of the ionospheric points for Galileo
+ ionpt_r.m		Estimate location of the ionospheric points for GLONASS
+ nav2mat.m		Convert a RINEX NAV file into a MAT-file for GLONASS
+ normP.m		Normalization function of Legendre polynomials
+ obs2mat.m		Convert OBS file into MAT-file for GPS
+ obs2mat_m.m		Convert OBS file into MAT-file for GLONASS, Galileo,
+			and BDS
+ putintv.m		Insert sampling interval into RINEX file
+ readbia.m		Read BIA file and retrieve DCB values for Galileo
+ readcrd.m		Read CRD file and retrieve coordinate information
+ rinex_rename.m		Change new RINEX filename parameters to original format
+ skipcheck.m		Check problem stations
+ slant.m		Slant function
+ slant2.m		Slant function 2
+ smooth.m		Smooth data with running mean
+ sp32mat.m		Convert an SP3 file to a MAT-file for GPS and GLONASS
+ sp32mat_c.m		Convert an SP3 file to a MAT-file for Galileo and QZSS
+ sp32mat_e.m		Convert an SP3 file to a MAT-file for Galileo and QZSS
+ sp3cubic.m		Apply cubic interpolation on SP3 data
+ vtec.m			Calculate vertical TEC
+ ymd2doy.m		Convert year, month and day to day of the year
+ ymd2gps.m		Convert year, month and day to GPS week and day of the
+			week
+ CODE.CRD		ITRF coordinates of the ground-based sites retrieved
+			from CODE
+ LOCAL.CRD		Approximate ITRF coordinates of the other ground-based
+			sites retrieved from various data sources
+ MISC.CRD		Approximate ITRF coordinates of the unsure sites (not
+			currently used)
+ STATION.CRX		Skip list for problem station check
+ DCB/BDS.DCB		Estimated BDS satellite DCBs
+ DCB/DLR0MGXFIN*.BSX	GNSS DCBs for Galileo and others
+ DCB/P1C1*_RINEX.DCB	GNSS DCBs for GPS/GLONASS (P1-C1)
+ DCB/P1P2*_ALL.DCB	GNSS DCBs for GPS/GLONASS (P1-P2)
+ DCB/STATION.DCB	GNSS DCBs for GPS/GLONASS/Galileo/Beidou
+
+The associated files as below for testing:
+
+ brdc3060.14g		Broadcast ephemeris for GLONASS
+ COD18170.EPH		GPS and GLONASS orbit file from CODE, date 2014.306
+ COD18775.EPH		GPS and GLONASS orbit file from CODE, date 2016.001
+ gbm18775.sp3           GNSS orbit file from GFZ, date 2016.001
+ hksl0010.16o		30-s sampling daily OBS file at HKSL, RINEX 3
+ lpgs306a.14o    	1-s sampling hourly OBS file at MIZU, RINEX 2
+ pgnsstec.m		GNSS-TEC parallel processor for Octave
+ readbia_c.m		Read BIA file and retrieve DCB values for BDS
+ run_gpstec1.pl		Auto-run script for GPS-TEC
+ tash3060.14o    	30-s sampling daily OBS file at TASH, RINEX 2
+ tum18170.sp3		Orbit file including Galileo from IGS, date 2014.306
+
+Where crx2rnx() and hrcrx2rnx() need the additional program 'crx2rnx' to unpack
+OBS files where the program can be downloaded at
+
+ http://facility.unavco.org/software/preprocessing/preprocessing.html#hatanaka
+
+
+PREPARATION
+
+Before running the main script for GNSS data processing in GNU Octave or MATLAB
+-compatible environments, users need to get at least an OBS file and an orbit
+file ready as input.  For GLONASS, the broadcast ephermis file is necessary to
+identify the frequency numbers.  At least a GNSS observation file (OBS) in
+RINEX 2.00 format or later (RINEX 1.xx compatible for GPS and GLONASS) and a
+GNSS orbit file in SP3 format are necessary to estimate the TEC values.  The
+OBS file must be in name of SSSSDDDA.YYo, where SSSS is the site name (marker
+name in 4-char), DDD is the 3-digit day of year (DOY), A is the fractional
+index, YY is 2-digit year number.  The broadcast ephemeris file must be in name
+of brdcDDD0.YYg.
+
+The script, crx2rnx.m, converts one-day worth of zipped compact RINEX OBS files
+in 30-second sampling into the ordinary RINEX OBS files.
+
+Besides, the script, hrcrx2rnx.m, converts 15-minute worth of zipped compact
+RINEX OBS files in one-second sampling into one-hour worth of RINEX files in
+the specified sampling rate.
+
+The GPS and GLONASS orbit files can be found at
+
+ ftp://ftp.unibe.ch/aiub/CODE/YYYY/CODwwwwd.EPH.Z
+
+or
+
+ ftp://cddis.gsfc.nasa.gov/gps/products/wwww/ig[rs]wwwwd.sp3.Z
+
+or
+
+ ftp://cddis.gsfc.nasa.gov/gps/products/wwww/iguwwwwd_[00|06|12|18].sp3.Z
+
+where the rapid SP3 files (igrwwwwd.sp3), precise SP3 files (CODwwwwd.EPH or
+igswwwwd.sp3) or predicted SP3 files (iguwwwwd.sp3, renamed from
+iguwwwwd_hh.sp3), are all acceptable.
+
+The Galileo and BDS orbit files can be found at
+
+ ftp://ftp.gfz-potsdam.de/GNSS/products/mgex/wwww/gbmwwwwd.sp3.Z
+
+or
+
+ ftp://ftp.gfz-potsdam.de/GNSS/products/mgex/wwww/gbuwwwwd_hh.sp3.Z
+
+The Galileo orbit files can also be found at
+
+ ftp://cddis.gsfc.nasa.gov/gnss/products/mgex/wwww/tumwwwwd.sp3.Z
+
+Again, rename the predicted orbit file gbuwwwwd_hh.sp3 into gbuwwwwd.sp3
+manually before use.
+
+The broadcast ephemeris files can be found at
+
+ ftp://cddis.gsfc.nasa.gov/glonass/data/daily/YYYY/DDD/YYg/brdcDDD0.YYg.Z
+
+Make sure all of the input files are unzipped before use.
+
+Besides, the coordinate files, CODE.CRD and LOCAL.CRD, contain approximate XYZ
+positions of the sites.  CODE.CRD was retrieved from the University of Bern at:
+
+ ftp://ftp.unibe.ch/aiub/BSWUSER50/STA/CODE.CRD
+
+LOCAL.CRD was retrieved from CWB, Academia Sinica, New Zealand GeoNet, etc.
+Users may add more information into it if not available.  The DCB files for GPS
+and GLONASS were retrieved from CODE at the Unversity of Bern at
+
+ ftp://ftp.unibe.ch/aiub/CODE/
+
+The DCB files for Galileo can be found at
+
+ ftp://cddis.gsfc.nasa.gov/pub/gps/products/mgex/dcb/YYYY/
+
+or
+
+ ftp://igs.ensg.ign.fr/pub/igs/products/mgex/dcb/YYYY/
+
+For BDS, Estimated C1-C7 DCB values in BDS.DCB are read.  If the station DCB is
+not found in those files, the daily data processing will estimate it
+ automatically with spherical harmonics based on the daily data; otherwise,
+STATION.DCB, which provides estimated station DCB values for hourly data
+processing, is read.  Again, users may add more information into this file if
+necessary.
+
+For MATLAB users, since Octave has its own MAT format, you might need to add
+
+ save_default_options('-7');
+
+in your own $HOME/.octaverc beforehand for data exchange with MATLAB.
+
+
+RUNNING GNSS-TEC
+
+There are two types of syntax to process the GNSS data.  Run
+
+ gpstec('SITE',Y,D,H,R,MINEL)
+
+or
+
+ gpstec('SITE',Y,D,[H1 H2],R,MINEL)
+
+to process the GPS data, which reads in the daily or hourly GPS observation
+files and the ephemeris files for site SITE, year Y, day of year D, hour H or
+hour range [H1 H2], sampling rate R, and the cutoff elevation angle of the
+satellites, MINEL, and then returns the vertical TEC (VTEC), the corresponding
+elevation angle of the GPS satellites, longitude and latitude of the
+ionospheric points.  For example, run
+
+ gpstec('lpgs',2014,306,0,1,10)
+
+to read in the OBS file, lpgs306a.14o, and the corresponding ephemeris file,
+COD18170.EPH, igr18170.sp3, igs18170.sp3 or igu18170.sp3, and obtain VTEC for
+date 2014.306, hour 0 (GPS time; an hour worth of the data), with one-second
+sampling rate, 10-degree cutoff elevation angle.  Run
+
+ gpstec('tash',2014,306,[0 24],30,20)
+
+to read tash3060.14o and the corresponding ephemeris file (COD18170.EPH, for
+example), and obtain VTEC for the same date, hours 0-24 (GPS time; one day
+worth of the data) with 30-second sampling rate, 20-degree cutoff elevation
+angle.  Similarly, run
+
+ glotec('SITE',Y,D,H,R,MINEL)
+
+or
+
+ glotec('SITE',Y,D,[H1 H2],R,MINEL)
+
+for GLONASS.  For example, run
+
+ glotec('tash',2014,306,[0 24],30,20)
+
+to read tash3060.14o, the corresponding ephemeris file (COD18170.EPH for
+example) and the broadcast ephemeris file, brdc3060.14g, and then produces
+the GLO-TEC data.
+
+Run
+
+ galtec('SITE',Y,D,H,R,MINEL)
+
+or
+
+ galtec('SITE',Y,D,[H1 H2],R,MINEL)
+
+for Galileo.  For example, run
+
+ galtec('tash',2014,306,[0 24],30,20)
+
+to read tash3060.14o, the corresponding ephemeris file (gbm18170.sp3 for
+example), and then produces the GAL-TEC data.
+
+Run
+
+ bdstec('SITE',Y,D,H,R,MINEL)
+
+or
+
+ bdstec('SITE',Y,D,[H1 H2],R,MINEL)
+
+for BDS.  Besides, main scripts gpstec_sh.m, glotec_sh.m, galtec_sh.m and
+bdstec_sh.m are used to execute in UNIX-like system.  For example, running
+
+ gpstec_sh.m lpgs 2014 306 0 1 10
+
+is almost the same as
+
+ gpstec('lpgs',2014,306,0,1,10)
+
+except for additional ASCII data output.  Running
+
+ gpstec_sh.m tash 2014 306 0 24 30 20
+
+is equilavent as gpstec('tash',2014,306,[0 24],30,20).
+
+Data in RINEX 3.xx format is also acceptable.  For example, run
+
+ gpstec('hksl',2016,1,[0 240],30,20)
+
+to process GPS data in RINEX 3.02.
+
+
+OUTPUT
+
+At least six output files are created.  For the first example above,
+COD18170i01.mat, COD18170.mat, lpgs306a.mat, lpgs306.mat, lpgs306.log,
+LPGS_41510M001__.mat, P1C11411_RINEX.mat, and P1P21411_ALL.mat are created; for
+the last example, COD18170i30.mat, COD18170.mat, P1C11411_RINEX.mat,
+P1P21411_ALL.mat, TASH_12327M001__.mat, tash3060.mat, tash306.dat, tash306.log,
+and tash306.mat are created.
+
+All TEC are in TECU (1 TECU = 10^16 electrons m^(-2)); all of angles are in
+degrees.
+
+The minimum TEC value in the log file indicates the mean TEC value for 0400-
+0430 local time (LT).
+
+The first alphabets of the variables in the output MAT-file denote the data
+types (see Table 1).  Each variable contains a matrix of thousands of epoches
+in rows and 32 GPS or 26 GLONASS or 30 Galileo or 35 BDS satellites in columns.
+For example, (1,2) stands for the first epoch and PRN2 (for GPS, Galileo and
+BDS) or slot number 2 (for GLONASS).  Main scripts, gpstec_sh.m, glotec_sh.m,
+galtec_sh.m and bdstec_sh.m additionally output ASCII data file with the suffix
+.dat, for example, lpgs306.dat.
+
+Table 1: Mnemonics of output data types (for MAT-file only).
+
+    Mnemonics   Description
+-----------------------------------------------------------------------
+	a	Geographic latitude of ionospheric points
+	e	Elevation angle of GNSS satellites with respect to the site
+	o	Geographic longitude of ionospheric points
+	s	Slant TEC at the receiver
+	v	Vertical TEC at ionospheric points
+
+
+ACKNOWLEDGMENTS
+
+Dr. Sugar Lin at National Taiwan Ocean University contributes subroutines
+NAVIGATION and SATPOSI for the old version of this program.  Dr. Shao-ju Shan
+in Canada, Prof. Charles Lin at National Cheng-Kung University (NCKU), and
+Ms. Tiffany Ho at Central Weather Bureau (CWB) provide valuable comments and
+contribution on debugging.  Mr. Phil Huang at CWB helps to speed up the
+performance of routines.  Mr. Min-Yang Chou at NCKU contributes the scripts for
+station DCB estimate, BDS satellite DCB estimate, and parallel processing.
+
+
+Author:		Ho-Fang Tsai
+Address:	Department of Earth Sciences, National Cheng Kung University 
+		No. 1, Daxue Rd., Tainan, Taiwan.
+E-mail:		tsai@ncku.edu.tw
+

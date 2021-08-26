@@ -388,7 +388,7 @@ for power = 3.5: 0.1: 5
     title(['ROCSAT-1 \itAi > 10^' num2str(floor(power)) '^.^' num2str(tenton)])
     
     set(gcf,'paperpositionmode','auto')
-    print('-dpng','-r300', [output 'Noztest_' num2str(power*10) '.jpg'])
+    print('-dpng','-r300', [output 'Noztest_' num2str(power*10) '_area5.jpg'])
     close all
 end
 

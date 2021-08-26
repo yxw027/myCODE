@@ -3,19 +3,22 @@ clc
 
 addpath('E:\Matlabtoolbox')
 input = 'E:\Satellite\ROCSAT-1\analyzed\';
-output = 'E:\AOGS_study\ROCSAT-1\bubble_MAP\';
+output = 'E:\OneDrive - 國立中央大學\myPaper\paper1\JGR\ROCSAT-1\MAP\';
+coordinate = 'Magnetic';
+
+TimePeriod = [20, 24];
 
 LON = -179.5 : 5 : 179.5;
 LAT = 64.5 : -2.5 : -64.5;
 LAT2 = 90 : -2.5 : -90;
 lonr = 10;
-latr = 1;
+latr = 2;
 
 Month = {char('January'), char('February'), char('March'), char('April'),...
-    char('May'), char('June'), char('July'), char('August'), char('September'),...
-    char('October'), char('November'), char('December')};
+    char('May'), char('June'), char('July'), char('August'),...
+    char('September'), char('October'), char('November'), char('December')};
 
-for k = 6
+for k = 1 : 12
    
     fn = [];
     for year = 1999 : 2004
@@ -57,15 +60,22 @@ for k = 6
 
     GLON = cell(size(fn,1), 1);
     GLAT = cell(size(fn,1), 1);
-    HHT = cell(size(fn,1), 1);
-    sigma = cell(size(fn,1), 1);
-    Ni = cell(size(fn,1), 1);
+    HHTpower = cell(size(fn,1), 1);
+    Time = cell(size(fn,1), 1);
+    Noi = cell(size(fn,1), 1);
+    STD = cell(size(fn,1), 1);
+    deltaN = cell(size(fn,1), 1);
+    year = cell(size(fn,1), 1);
+    month = cell(size(fn,1), 1);
+    day = cell(size(fn,1), 1);
+    
     for i = 1 : length(fn)
         
         day_data = [];
         f = dir([input fn(i, :) '*mat']);
         if isempty(f);continue;end
         load([input f.name])
+        filename = f.name;
         disp(f.name)
         UT = data.Time/3600;
         lon = data.GLON;
@@ -73,36 +83,67 @@ for k = 6
         LT(LT>24) = LT(LT>24) - 24;
         LT(LT<0) = LT(LT<0) + 24;
 
-        u = find(LT >= 20 & LT < 24);
+        u = find(LT >= TimePeriod(1) & LT < TimePeriod(2));
         lon(lon>180) = lon(lon>180) - 360;
         
-        GLON{i} =lon(u);
+        GLON{i} = lon(u);
         GLAT{i} = data.GLAT(u);
-        HHT{i} = data.htpower(u);
-        sigma{i} = logscale.sigma(u);
-        Ni{i} = data.LogN(u);
+        HHTpower{i} = data.htpower(u);
+        Time{i} = data.Time(u);
+        deltaN{i} = linearscale.deltaNi(u);
+        Noi{i} = linearscale.Noi(u);
+        STD{i} = linearscale.STD(u);
+        
+        DataLength = length(lon(u));
+        y = str2double(filename(1 : 4));
+        doy = str2double(filename(5 : 7));
+        date = datetime(y, 1, doy);
+        m = date.Month;
+        d = date.Day;
+                
+        year{i} = ones(DataLength, 1)*y;
+        month{i} = ones(DataLength, 1)*m;
+        day{i} = ones(DataLength, 1)*d;
     end
     
     GLON = cell2mat(GLON);
     GLAT = cell2mat(GLAT);
-    HHT = cell2mat(HHT);
-    sigma = cell2mat(sigma);
-    Ni = cell2mat(Ni);
+    HHTpower = cell2mat(HHTpower);
+    Time = cell2mat(Time);
+    deltaN = cell2mat(deltaN);
+    Noi = cell2mat(Noi);
+    STD = cell2mat(STD);
+    year = cell2mat(year);
+    month = cell2mat(month);
+    day = cell2mat(day);
+    
+    switch coordinate
+        case 'Magnetic'
+            cd('E:\Matlabtoolbox\Geo2mag');
+            H = GEO2MAG_APX(year, month, day, GLAT, GLON);
+            u = find(H(:, 4) < 15 & H(:, 4) > -15);
+            latdata = H(u, 4);
+        case 'Geographic'
+            u = find(GLAT < 35 & GLAT > -35);
+            latdata = GLAT(u);
+    end
 
-
-    u = find(GLAT < 35 & GLAT > -35);
-    latdata = GLAT(u);
     londata = GLON(u);
-    Ai = sqrt(HHT(u));
-    N = Ni(u);
-    Si = sigma(u);
+    Ai = sqrt(HHTpower(u));
+    ambient = Noi(u);
+    stddev = STD(u);
+    deltaN = deltaN(u);
     
     Ai_MAP = mymap(LON, LAT, lonr, latr, londata, latdata, Ai, 'median');
-    Ni_MAP = mymap(LON, LAT, lonr, latr, londata, latdata, 10.^N, 'median');
-    PAi_MAP = myoccur(LON, LAT, lonr, latr, londata, latdata, Ai, 10^3.7);
-    Si_MAP = mysigma(LON, LAT, lonr, latr, londata, latdata, Si, 0.3);
+    Noi_MAP = mymap(LON, LAT, lonr, latr, londata, latdata, ambient, 'median');
+    STD_MAP = mymap(LON, LAT, lonr, latr, londata, latdata, stddev, 'median');
+    Abs_MAP = mymap(LON, LAT, lonr, latr, londata, latdata, deltaN, 'median');
 
-    name = ['F1_HHT_bbMap_' num2str(k, '%02d')];
+    if TimePeriod(1) == 0
+        name = ['ROC_bbMap_PostMidnight_' num2str(k, '%02d')];
+    else
+        name = ['ROC_bbMap_PreMidnight_' num2str(k, '%02d')];
+    end
     
-    save([output name], 'Ai_MAP', 'Ni_MAP', 'PAi_MAP', 'Si_MAP')
+    save([output name], 'Ai_MAP', 'Noi_MAP', 'STD_MAP', 'Abs_MAP')
 end

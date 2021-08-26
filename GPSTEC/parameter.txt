@@ -1,0 +1,10 @@
+clight 2.99792458e8
+f1 1.57542e9
+f2 1.2276e9
+ionfac 40.3082e16 
+re 6371
+h1 650
+h2 250
+nsat 32
+minobs 3000
+km2m 1e3
