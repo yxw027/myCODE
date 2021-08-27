@@ -21,7 +21,7 @@ for doy = 221
     mission ={'GPS', 'GLONASS', 'Galileo'};
     m1 = 1;% mission 1
     m2 = 1;% mission 2
-    for mm = m1: m2
+    for mm = m1 : m2
         MISSION = mission{mm};
         switch MISSION
             case 'GPS'

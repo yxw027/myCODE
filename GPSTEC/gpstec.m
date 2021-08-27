@@ -27,7 +27,7 @@ function gpstec(Site,yr,doy,hrng,rate,minel,ippalt,input,output)
 %   SINCE	:	2012/04/21
 %   VERSION	:	7.1 2016/12/15
 
-narginchk(9,9);
+narginchk(9, 9);
 
 % Set default options to be MATLAB-compatible
 if exist('default_save_options','builtin')
